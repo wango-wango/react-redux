@@ -1,11 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { todoData } from "../todoData";
+import { todoData } from "./data/todoData";
 
 export const todoSlice = createSlice({
     // 對應 reducer 的名稱
     name: "todoList",
     // initialState -> 初始狀態
-    initialState: { value: todoData },
+    initialState: {
+        value: todoData,
+        selectedId: todoData[0].id,
+    },
     // 用來對 users 這個 reducers 做的 action 的 function
     reducers: {
         addTodoList: (state, action) => {
@@ -16,7 +19,12 @@ export const todoSlice = createSlice({
             //update list
             state.value.map((v) => {
                 if (v.id === action.payload.id) {
-                    v.todo = action.payload.todo;
+                    if (action.payload.todo !== "")
+                        v.todo = action.payload.todo;
+                    if (action.payload.workingTime !== 0)
+                        v.workingTime = action.payload.workingTime;
+                    if (action.payload.breakTime !== 0)
+                        v.breakTime = action.payload.breakTime;
                 }
                 return state;
             });
@@ -25,8 +33,11 @@ export const todoSlice = createSlice({
             // delete user by id
             state.value = state.value.filter((v) => v.id !== action.payload.id);
         },
+        selectTodoList: (state, action) => {
+            state.selectedId = action.payload.id;
+        },
     },
 });
-export const { addTodoList, updateTodoList, deleteTodoList } =
+export const { addTodoList, updateTodoList, deleteTodoList, selectTodoList } =
     todoSlice.actions;
 export default todoSlice.reducer;

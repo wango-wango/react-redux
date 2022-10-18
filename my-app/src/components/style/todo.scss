@@ -21,21 +21,18 @@ $btn_color: #fff;
     width: 20%;
     height: 2rem;
     margin: auto;
-    background-color: $btn_bgc;
-    color: $btn_color;
+    background-color: transparent;
+    color: #999;
     transition: .3s ease;
     border: 1px solid #eee;
 
     &:hover {
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.39);
-        background-color: $btn_color;
-        color: $btn_bgc;
+        filter: drop-shadow( 0 4px 8px 0 rgba(0, 0, 0, 0.3));
+        color:#fff;
     }
 
     &:active {
         transform: translateY(3px);
-        background-color: #515c75;
-        border: #515c75;
     }
 }
 
@@ -48,6 +45,7 @@ $btn_color: #fff;
         margin: auto;
 
         .todoHeader {
+            margin-bottom: 2rem;
             h1 {
                 text-align: center;
             }
@@ -101,8 +99,7 @@ $btn_color: #fff;
                     margin-right:0.5rem;
                 }
                 .showInput{
-                    width: 40%;
-                    margin-right: 0.5rem;
+                    width: 50%;
                     background-color: $btn_bgc;
                     color: #eee;
                     font-size: 1rem;
@@ -124,12 +121,12 @@ $btn_color: #fff;
                         text-decoration: line-through;
                     }
                     &.showWorkingTime, &.showBreakTime{
-                        width: 20%;
+                        width: 30%;
                     }
                 }
                 button{
                     @include todoBtn();
-                    margin-bottom: 0.2rem;
+                    margin: 0 0.5rem 0.2rem;
                     border: none;
                     width: 5%;
                 }

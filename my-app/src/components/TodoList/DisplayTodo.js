@@ -1,7 +1,12 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateTodoList, deleteTodoList } from "../../reducers/todoSlice";
+import {
+    updateTodoList,
+    deleteTodoList,
+    selectTodoList,
+} from "../../reducers/todoSlice";
 import { AiFillDelete, AiOutlineUpload, AiFillEdit } from "react-icons/ai";
+import { FiPlay } from "react-icons/fi";
 import { useState } from "react";
 
 function DisplayTodo() {
@@ -10,12 +15,7 @@ function DisplayTodo() {
     // useDispatch 用來 執行 action
     const dispatch = useDispatch();
 
-    const [upDateTodoList, setUpDateTodoList] = useState({
-        todo: "",
-        workingTime: 0,
-        breakTime: 0,
-    });
-    const [editedCheck, setEditedCheck] = useState("");
+    const [editedCheck, setEditedCheck] = useState([]);
     const [checked, setChecked] = useState([]);
 
     return (
@@ -24,6 +24,7 @@ function DisplayTodo() {
                 return (
                     <div key={v.id} className="ListCard">
                         <div className="listCardContent">
+                            {/* 劃掉清單 */}
                             <input
                                 type="checkbox"
                                 className="checkInput"
@@ -42,16 +43,20 @@ function DisplayTodo() {
                                     }
                                 }}
                             />
+                            {/* 清單名稱 */}
                             <input
                                 type="text"
-                                defaultValue={v.todo}
-                                readOnly={v.id !== editedCheck}
+                                value={v.todo}
+                                readOnly={!editedCheck.includes(v.id)}
                                 onChange={(e) => {
-                                    const newUpDateTodoList = {
-                                        ...updateTodoList,
-                                        todo: e.target.value,
-                                    };
-                                    setUpDateTodoList(newUpDateTodoList);
+                                    dispatch(
+                                        updateTodoList({
+                                            id: v.id,
+                                            todo: e.target.value,
+                                            workingTime: v.workingTime,
+                                            breakTime: v.breakTime,
+                                        })
+                                    );
                                 }}
                                 className={
                                     checked.includes(v.id + "")
@@ -59,16 +64,22 @@ function DisplayTodo() {
                                         : "showInput"
                                 }
                             />
+                            {/* 清單工作時間 */}
                             <input
                                 type="number"
-                                defaultValue={v.workingTime}
-                                readOnly={v.id !== editedCheck}
+                                value={v.workingTime}
+                                readOnly={!editedCheck.includes(v.id)}
                                 onChange={(e) => {
-                                    const newUpDateTodoList = {
-                                        ...updateTodoList,
-                                        workingTime: e.target.value,
-                                    };
-                                    setUpDateTodoList(newUpDateTodoList);
+                                    dispatch(
+                                        updateTodoList({
+                                            id: v.id,
+                                            todo: v.todo,
+                                            workingTime: parseInt(
+                                                e.target.value
+                                            ),
+                                            breakTime: v.breakTime,
+                                        })
+                                    );
                                 }}
                                 className={
                                     checked.includes(v.id + "")
@@ -76,16 +87,20 @@ function DisplayTodo() {
                                         : "showInput showWorkingTime"
                                 }
                             />
+                            {/* 清單休息時間 */}
                             <input
                                 type="number"
-                                defaultValue={v.breakTime}
-                                readOnly={v.id !== editedCheck}
+                                value={v.breakTime}
+                                readOnly={!editedCheck.includes(v.id)}
                                 onChange={(e) => {
-                                    const newUpDateTodoList = {
-                                        ...updateTodoList,
-                                        breakTime: e.target.value,
-                                    };
-                                    setUpDateTodoList(newUpDateTodoList);
+                                    dispatch(
+                                        updateTodoList({
+                                            id: v.id,
+                                            todo: v.todo,
+                                            workingTime: v.workingTime,
+                                            breakTime: parseInt(e.target.value),
+                                        })
+                                    );
                                 }}
                                 className={
                                     checked.includes(v.id + "")
@@ -93,28 +108,31 @@ function DisplayTodo() {
                                         : "showInput showBreakTime"
                                 }
                             />
+                            {/* 編輯按鈕 */}
                             <button
-                                disabled={checked.includes(v.id + "")}
+                                disabled={checked.includes(v.id)}
                                 onClick={() => {
-                                    editedCheck === v.id
-                                        ? setEditedCheck()
-                                        : setEditedCheck(v.id);
-                                    if (v.id === editedCheck) {
-                                        dispatch(
-                                            updateTodoList({
-                                                id: v.id,
-                                                todoList: upDateTodoList,
-                                            })
-                                        );
+                                    const value = v.id;
+                                    if (editedCheck.includes(value)) {
+                                        const oldEditedCheck = editedCheck;
+                                        const newEditedCheck =
+                                            oldEditedCheck.filter(
+                                                (v) => v !== value
+                                            );
+                                        setEditedCheck(newEditedCheck);
+                                    } else {
+                                        setEditedCheck([...editedCheck, value]);
                                     }
                                 }}
                             >
-                                {v.id === editedCheck ? (
+                                {/* 判斷編輯 or 上傳的 icon */}
+                                {editedCheck.includes(v.id) ? (
                                     <AiOutlineUpload />
                                 ) : (
                                     <AiFillEdit />
                                 )}
                             </button>
+                            {/* 刪除按鈕 */}
                             <button
                                 onClick={() => {
                                     dispatch(
@@ -125,6 +143,18 @@ function DisplayTodo() {
                                 }}
                             >
                                 <AiFillDelete size={14} />
+                            </button>
+                            {/* 播放 */}
+                            <button
+                                onClick={() => {
+                                    dispatch(
+                                        selectTodoList({
+                                            id: v.id,
+                                        })
+                                    );
+                                }}
+                            >
+                                <FiPlay size={14} />
                             </button>
                         </div>
                     </div>
