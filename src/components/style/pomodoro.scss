@@ -18,18 +18,11 @@
         margin-bottom: 2rem;
     }
     .listTitle{
-        color: #515c75;
-        border: 1px solid #515c75;
-        border-radius: 1rem;
+        color: #91a6bf;
         padding: 0.5rem 1rem;
         margin: auto;
         margin-bottom: 2rem;
         transition: .3s ease-in-out;
-        &:hover{
-            color: #91a6bf;
-            border: 1px solid #91a6bf;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.39);
-        }
     }
     .circularContainer{
         display: flex;

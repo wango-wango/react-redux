@@ -17,7 +17,7 @@ function PomodoroTimer(props) {
     const [isSetting, setIsSetting] = useState(true);
 
     // 判斷是否暫停
-    const [isPause, setIsPause] = useState(false);
+    const [isPause, setIsPause] = useState(true);
     // 設定被選擇的初始值
     const [theSelctedList, setTheSelectedList] = useState({});
 
@@ -36,7 +36,11 @@ function PomodoroTimer(props) {
     return (
         <>
             <div className="pomodoroContainer">
-                <Timer theSelctedList={theSelctedList} />
+                <Timer
+                    theSelctedList={theSelctedList}
+                    setIsPause={setIsPause}
+                    isPause={isPause}
+                />
                 {isSetting ? (
                     <PlayBtn isPause={isPause} setIsPause={setIsPause} />
                 ) : (

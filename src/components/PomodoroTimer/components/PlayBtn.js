@@ -7,7 +7,7 @@ function PlayBtn(props) {
     return (
         <div className="btnContainer">
             <button
-                className={isPause ? "playBtn fade" : "playBtn"}
+                className={isPause ? "playBtn " : "playBtn fade"}
                 onClick={() => {
                     setIsPause(!isPause);
                 }}
@@ -15,7 +15,7 @@ function PlayBtn(props) {
                 <BsPlayFill size={50} />
             </button>
             <button
-                className={isPause ? "pauseBtn" : "pauseBtn fade"}
+                className={isPause ? "pauseBtn fade" : "pauseBtn "}
                 onClick={() => {
                     setIsPause(!isPause);
                 }}

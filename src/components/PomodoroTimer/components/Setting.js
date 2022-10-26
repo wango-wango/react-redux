@@ -33,7 +33,6 @@ function Setting(props) {
                     borderRadius: 5,
                 }}
                 onChange={(value) => {
-                    console.log(value);
                     if (theSelctedList) {
                         dispatch(
                             updateTodoList({
@@ -70,13 +69,13 @@ function Setting(props) {
                     background: "#f44a4acd",
                     borderRadius: 5,
                 }}
-                onChange={(e) => {
+                onChange={(value) => {
                     dispatch(
                         updateTodoList({
                             id: id,
                             todo: todo,
                             workingTime: workingTime,
-                            breakTime: e.target.value,
+                            breakTime: value,
                         })
                     );
                 }}
